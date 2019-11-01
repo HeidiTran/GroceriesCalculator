@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="form-container mb-3">
+      <h1 class="mb-3">Calculator</h1>
+      <div class="d-flex justify-content-between flex-md-row flex-column">
+        <!--FirstPerson-->
+        <div class="form-group mr-3">
+          <label class="font-weight-bold">{{FirstPersonName}}</label>
+          <div class="d-flex mb-2">
+            <input #FirstPersonItemBox type="text" class="form-control mr-1" placeholder="Item" autofocus>
+            <input #FirstPersonPriceBox type="number" class="form-control mr-1" (keyup.enter)="AddFirstPersonItem(FirstPersonItemBox.value, FirstPersonPriceBox.value); FirstPersonItemBox.value=null; FirstPersonPriceBox.value=null" placeholder="Price">
+            <button class="btn btn-success mr-2" (click)="AddFirstPersonItem(FirstPersonItemBox.value, FirstPersonPriceBox.value); FirstPersonItemBox.value=null; FirstPersonPriceBox.value=null"><i class="fa fa-plus"></i></button>
+          </div>
+          <!--FirstPersonItems-->
+          <table class="table table-hover" *ngIf="FirstPersonItems">
+            <tbody>
+              <tr *ngFor="let item of FirstPersonItems; index as i">
+                <td class="text-center">{{ item.ItemName }}</td>
+                <td class="text-center">${{ item.ItemPrice | number: '1.2-2' }}</td>
+                <td>
+                  <button class="btn" (click)="DeleteFirstPersonItem(i)"><i class="fa fa-remove text-danger"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--FirstPersonTotal-->
+          <h3 class="text-center">${{ FirstPersonTotal | number: '1.2-2' }}</h3>
+        </div>
+        <!--SecondPerson-->
+        <div class="form-group mr-3">
+          <label class="font-weight-bold">{{SecondPersonName}}</label>
+          <div class="d-flex mb-2">
+            <input #SecondPersonItemBox type="text" class="form-control mr-1" placeholder="Item">
+            <input #SecondPersonPriceBox type="number" class="form-control mr-1" (keyup.enter)="AddSecondPersonItem(SecondPersonItemBox.value, SecondPersonPriceBox.value); SecondPersonItemBox.value=null; SecondPersonPriceBox.value=null" placeholder="Price">
+            <button class="btn btn-success mr-2" (click)="AddSecondPersonItem(SecondPersonItemBox.value, SecondPersonPriceBox.value); SecondPersonItemBox.value=null; SecondPersonPriceBox.value=null"><i class="fa fa-plus"></i></button>
+          </div>
+          <!--SecondPersonItems-->
+          <table class="table table-hover" *ngIf="SecondPersonItems">
+            <tbody>
+              <tr *ngFor="let item of SecondPersonItems; index as i">
+                <td class="text-center">{{ item.ItemName }}</td>
+                <td class="text-center">${{ item.ItemPrice | number: '1.2-2' }}</td>
+                <td>
+                  <button class="btn" (click)="DeleteSecondPersonItem(i)"><i class="fa fa-remove text-danger"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--SecondPersonTotal-->
+          <h3 class="text-center">${{ SecondPersonTotal | number: '1.2-2' }}</h3>
+        </div>
+        <!--BOTH-->
+        <div class="form-group mr-3">
+          <label class="font-weight-bold">BOTH</label>
+          <div class="d-flex mb-2">
+            <input #BothItemBox type="text" class="form-control mr-1" placeholder="Item">
+            <input #BothPriceBox type="number" class="form-control mr-1" (keyup.enter)="AddBothPeopleItem(BothItemBox.value, BothPriceBox.value); BothItemBox.value=null; BothPriceBox.value=null" placeholder="Price">
+            <button class="btn btn-success mr-2" (click)="AddBothPeopleItem(BothItemBox.value, BothPriceBox.value); BothItemBox.value=null; BothPriceBox.value=null"><i class="fa fa-plus"></i></button>
+          </div>
+          <!--BothItems-->
+          <table class="table table-hover" *ngIf="BothItems">
+            <tbody>
+              <tr *ngFor="let item of BothItems; index as i">
+                <td class="text-center">{{ item.ItemName }}</td>
+                <td class="text-center">${{ item.ItemPrice | number: '1.2-2' }}</td>
+                <td>
+                  <button class="btn" (click)="DeleteBothItem(i)"><i class="fa fa-remove text-danger"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--BothTotal-->
+          <h3 class="text-center">${{BothTotal | number: '1.2-2'}}</h3>
+        </div>
+      </div>
+      <!--Paid Radio buttons-->
+      <div class="d-flex mb-3 justify-content-center">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input checked type="radio" class="custom-control-input" id="customRadio" name="example" (change)="FirstPersonPaid()">
+          <label class="custom-control-label" for="customRadio">{{FirstPersonName}} paid</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio2" name="example" (change)="SecondPersonPaid()">
+          <label class="custom-control-label" for="customRadio2">{{SecondPersonName}} paid</label>
+        </div>
+      </div>
+      <!--Owe Summary-->
+      <h5 class="text-danger text-center" *ngIf="firstPersonPaid">{{SecondPersonName}} owed {{FirstPersonName}} ${{ SecondPersonTotal | number: '1.2-2' }}</h5>
+      <h5 class="text-danger text-center" *ngIf="!firstPersonPaid">{{FirstPersonName}} owed {{SecondPersonName}} ${{ FirstPersonTotal | number: '1.2-2' }}</h5>
+    </div>
+  </div>
+</body>
+</html>
+
+
